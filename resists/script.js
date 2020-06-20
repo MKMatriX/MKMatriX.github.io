@@ -1,5 +1,3 @@
-let storage = {}
-
 const proc = (x, y = 0) => {
 	let count = 1
 	if (y == 1 || y == 3) {
@@ -20,8 +18,6 @@ const allProcs = (resistPercent) => {
 }
 
 const resist2percent = (r, el = 63) => Math.min((3*r / (el*20)), 0.75)
-
-const getInput = () => storage.resist = parseInt($('#resist').val())
 
 var app = new Vue({
 	el: '#app',
