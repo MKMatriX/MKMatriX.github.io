@@ -1,0 +1,113 @@
+Vue.component(
+	'custom-input',
+	{
+		template: `
+<div class="input-group" v-bind:class="{'has-warning' : hasWarning}">
+	<div class="input-group-prepend">
+		<span class="input-group-text">{{name}}</span>
+	</div>
+	<input
+		type="number"
+		class="form-control"
+		placeholder={{name}}
+		v-bind:value="value"
+		v-on:input="$emit('input', $event.target.value)"
+	/>
+	<div v-if="hasWarning" class="input-group-btn">
+		<button class="btn btn-default" @click="normalize">
+			{{warning}}
+		</button>
+	</div>
+</div>
+`,
+		props: [
+			'name',
+			'value',
+			'min',
+			'max',
+		],
+		watch: {
+			value: function (c,p) {
+				let n = +(("" + c).replace(',','.'))
+				if (isNaN(n) || c === "") {
+					n = 0
+				}
+
+				if (n !== c) {
+					this.value= n
+				}
+			}
+		},
+		methods: {
+			normalize: function () {
+				let n = this.value
+				if (undefined !== this.min && n < this.min) {
+					this.value = this.min
+				}
+				if (undefined !== this.max && n > this.max) {
+					this.value = this.max
+				}
+				this.$emit('input', this.value)
+			},
+		},
+		computed: {
+			warning: function () {
+				let n = this.value
+				if (undefined !== this.min && n < this.min) {
+					return "min value is " + this.min
+				}
+				if (undefined !== this.max && n > this.max) {
+					return "max value is " + this.min
+				}
+				return ""
+			},
+			hasWarning: function () {
+				return this.warning.length > 0
+			}
+		}
+	},
+)
+
+var app = new Vue({
+	el: '#app',
+	data: {
+		spd: 0,
+		damage: "(440+475)/2",
+		crit: 5,
+		totalhit: 82,
+		casttime: 2.5,
+		parts: [],
+		result: 0,
+	},
+	computed: {
+		formula: function () {
+			this.result = +(eval(this.damage))
+			var res = ""
+
+			res = this.wrap(this.damage, "ice arrow default damage")
+			res = this.add(res, this.spd, "spd")
+			res = this.mul(res, 1 + (this.crit/100), "crit")
+			res = this.mul(res, this.totalhit/100, "hit")
+			res = this.div(res, this.casttime, "casttime")
+			res = this.mul(res, 1.10, "set bonus")
+			return res
+		},
+	},
+	methods: {
+		wrap: function (text, title="") {
+			return `<span title="${title}">${text}</span>`
+		},
+		add: function (left, right, title="") {
+			this.result += +right
+			return `(${left} + `+this.wrap(right,title) + ')'
+		},
+		mul: function (left, right, title="") {
+			this.result *= +right
+			return `${left} * `+this.wrap(right,title)
+		},
+		div: function (left, right, title="") {
+			this.result = this.result / (+right)
+			return `${left} / `+this.wrap(right,title)
+		}
+	},
+})

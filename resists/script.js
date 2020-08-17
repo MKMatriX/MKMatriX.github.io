@@ -17,7 +17,8 @@ const allProcs = (resistPercent) => {
 	return res
 }
 
-const resist2percent = (r, el = 63) => Math.min((3*r / (el*20)), 0.75)
+const resist2percent = (r, el = 63) => addLimits((3*r / (el*20)))
+const addLimits = (q) => Math.min(0.75, Math.max(0.1,q))
 
 var app = new Vue({
 	el: '#app',
