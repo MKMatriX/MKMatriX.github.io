@@ -125,21 +125,39 @@ Vue.component(
 var app = new Vue({
 		el: '#app',
 		data: {
-				initialInt: 127+16+14+12+9+37+3,
+				initialInt: 127.1,
 				roundValues: true,
 				spd: 416,
 				damage: "(440+475)/2",
 				crit: 5,
 				totalhit: 95,
 				casttime: 2.5,
-				intellect: 159,
+				intellect: 159+16+14+12+9+37+3,
 				active: 61.5,
-				parts: [],
 				result: 0,
+
 				setBonus: true,
+				zandTrink: true,
+
 				buffs: {
 						head: true,
+						zand: true,
+						dm: true,
+						flower: false,
+						dmf: false,
+						dmfInt: false,
 						int: true,
+
+						motw: true,
+						blessing: true,
+
+						mindElixir: false,
+						juju: false,
+						runtum: false,
+						oil: true,
+						icePower: true,
+						arcanePower: true,
+						greatPower: true,
 				}
 		},
 		computed: {
@@ -148,12 +166,15 @@ var app = new Vue({
 						var res = ""
 
 						res = this.wrap(this.damage, "ice arrow default damage")
-						res = this.add(res, this.spd * (this.casttime / 3), "spd * coef")
+						res = this.add(res, this.totalSpd * (this.casttime / 3), "spd * coef")
 						res = this.mul(res, (100 + this.totalCrit)/100, "crit")
 						res = this.mul(res, this.totalhit/100, "hit")
 						res = this.div(res, this.casttime, "casttime")
 						if (this.setBonus) {
 								res = this.mul(res, 1.10, "set bonus")
+						}
+						if (this.buffs.dmf) {
+								res = this.mul(res, 1.10, "darkmoon festival damage")
 						}
 						res = this.mul(res, this.active / 100, "active in fight")
 
@@ -163,19 +184,80 @@ var app = new Vue({
 				intCrit: function () {
 						return this.totalInt / 59.5
 				},
+				totalSpd: function () {
+						let spd = +this.spd
+
+						if (this.buffs.arcanePower) {
+								spd += 35
+						}
+						if (this.buffs.icePower) {
+								spd += 15
+						}
+						if (this.buffs.greatPower) {
+								spd += 150
+						}
+						if (this.buffs.oil) {
+								spd += 36
+						}
+
+						if (this.zandTrink) { // assuming 7 attacs
+								spd += (204*7-(17*(0+1+2+3+4+5+6)))/120
+						}
+
+						return spd
+				},
 				totalCrit: function () {
 						var crit = (+this.crit + this.intCrit)
 						if (this.buffs.head) {
 								crit += 10
 						}
+						if (this.buffs.dm) {
+								crit += 3
+						}
+						if (this.buffs.flower) {
+								crit += 5
+						}
+						if (this.buffs.oil) {
+								crit += 1
+						}
 						return crit
 				},
 				totalInt: function () { // 429
-						var int = ((this.initialInt + this.intellect)*1.05)>>>0
+						var int = this.initialInt + (+this.intellect)
+
 						if (this.buffs.int) {
 								int += 31
 						}
-						return int
+						if (this.buffs.flower) {
+								int += 15
+						}
+						if (this.buffs.mindElixir) {
+								int += 25
+						}
+						if (this.buffs.juju) {
+								int += 30
+						}
+						if (this.buffs.runtum) {
+								int += 10
+						}
+						if (this.buffs.motw) {
+								int += 16
+						}
+
+						if (true) { // gnome
+								int *= 1.05
+						}
+						if (this.buffs.blessing) {
+								int *= 1.1
+						}
+						if (this.buffs.zand) {
+								int *= 1.15
+						}
+						if (this.buffs.dmfInt) {
+								int *= 1.1
+						}
+
+						return Math.round(int)
 				},
 		},
 		methods: {

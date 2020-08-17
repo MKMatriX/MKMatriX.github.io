@@ -37,32 +37,43 @@
 				</div>
 			</div>
 
-			<custom-input name="ice spd" v-model="spd" min="0"></custom-input>
+			<custom-input name="ice spd" v-model="spd" min="0">
+				total spd = {{round100(totalSpd)}}
+			</custom-input>
 			<custom-input name="Intellect from clothes" v-model="intellect" min="0">
 				total int = {{round100(totalInt)}}
 				int crit = {{round100(intCrit)}}
 			</custom-input>
-			<custom-input name="crit w/o int %" v-model="crit" min="0">
+			<custom-input name="crit from clothes %" v-model="crit" min="0">
 				total crit = {{round100(totalCrit)}}
 			</custom-input>
 			<custom-input name="total hit %" v-model="totalhit" min="82" max="99"></custom-input>
 			<custom-input name="active %" v-model="active" min="0" max="100"></custom-input>
 			<div class="row" style="padding-top: 10px;">
-				<custom-checkbox
-					title="tier 2 last bonus"
-					v-model="setBonus"
-					src="spell_shadow_manaburn.jpg"
-					></custom-checkbox>
-				<custom-checkbox
-					title="head buff"
-					v-model="buffs.head"
-					src="inv_misc_head_dragon_01.jpg"
-				></custom-checkbox>
-				<custom-checkbox
-					title="int"
-					v-model="buffs.int"
-					src="spell_holy_magicalsentry.jpg"
-				></custom-checkbox>
+				<custom-checkbox title="tier 2 last bonus" v-model="setBonus" src="spell_shadow_manaburn.jpg"></custom-checkbox>
+				<custom-checkbox title="zandalar trinket" v-model="zandTrink" src="inv_jewelry_necklace_13.jpg"></custom-checkbox>
+			</div>
+			<div class="row" style="padding-top: 10px;">
+				<custom-checkbox title="head buff" v-model="buffs.head" src="inv_misc_head_dragon_01.jpg"></custom-checkbox>
+				<custom-checkbox title="int" v-model="buffs.int" src="spell_holy_magicalsentry.jpg"></custom-checkbox>
+				<custom-checkbox title="zandalar" v-model="buffs.zand" src="ability_creature_poison_05.jpg"></custom-checkbox>
+				<custom-checkbox title="dm" v-model="buffs.dm" src="spell_holy_lesserheal02.jpg"></custom-checkbox>
+				<custom-checkbox title="flower" v-model="buffs.flower" src="spell_holy_mindvision.jpg"></custom-checkbox>
+				<custom-checkbox title="darkmoon festival damage" v-model="buffs.dmf" src="inv_misc_orb_02.jpg"></custom-checkbox>
+				<custom-checkbox title="darkmoon festival intellect" v-model="buffs.dmfInt" src="inv_misc_orb_02.jpg"></custom-checkbox>
+			</div>
+			<div class="row" style="padding-top: 10px;">
+				<custom-checkbox title="Знак дикой природы" v-model="buffs.motw" src="spell_nature_regeneration.jpg"></custom-checkbox>
+				<custom-checkbox title="blessing" v-model="buffs.blessing" src="spell_magic_greaterblessingofkings.jpg"></custom-checkbox>
+			</div>
+			<div class="row" style="padding-top: 10px;">
+				<custom-checkbox title="great power" v-model="buffs.greatPower" src="inv_potion_41.jpg"></custom-checkbox>
+				<custom-checkbox title="ice power" v-model="buffs.icePower" src="inv_potion_03.jpg"></custom-checkbox>
+				<custom-checkbox title="arcane elixir" v-model="buffs.arcanePower" src="inv_potion_25.jpg"></custom-checkbox>
+				<custom-checkbox title="Oil" v-model="buffs.oil" src="inv_potion_105.jpg"></custom-checkbox>
+				<custom-checkbox title="runtum" v-model="buffs.runtum" src="inv_misc_food_63.jpg"></custom-checkbox>
+				<custom-checkbox title="Эликсир Мозгового штурма" v-model="buffs.mindElixir" src="inv_potion_32.jpg"></custom-checkbox>
+				<custom-checkbox title="Коварство джуджу" v-model="buffs.juju" src="inv_misc_monsterscales_13.jpg"></custom-checkbox>
 			</div>
 
 			<div class="result">
