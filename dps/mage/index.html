@@ -38,8 +38,9 @@
 			</div>
 
 			<custom-input name="ice spd" v-model="spd" min="0"></custom-input>
-			<custom-input name="Intellect" v-model="intellect" min="0">
-				crit from int = {{round100(intCrit)}}
+			<custom-input name="Intellect from clothes" v-model="intellect" min="0">
+				total int = {{round100(totalInt)}}
+				int crit = {{round100(intCrit)}}
 			</custom-input>
 			<custom-input name="crit w/o int %" v-model="crit" min="0">
 				total crit = {{round100(totalCrit)}}
@@ -48,17 +49,20 @@
 			<custom-input name="active %" v-model="active" min="0" max="100"></custom-input>
 			<div class="row" style="padding-top: 10px;">
 				<custom-checkbox
-					name="t2"
 					title="tier 2 last bonus"
 					v-model="setBonus"
-					src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_manaburn.jpg"
+					src="spell_shadow_manaburn.jpg"
 					></custom-checkbox>
 				<custom-checkbox
-					name="head"
 					title="head buff"
-					v-model="head"
-					src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_dragon_01.jpg"
-					></custom-checkbox>
+					v-model="buffs.head"
+					src="inv_misc_head_dragon_01.jpg"
+				></custom-checkbox>
+				<custom-checkbox
+					title="int"
+					v-model="buffs.int"
+					src="spell_holy_magicalsentry.jpg"
+				></custom-checkbox>
 			</div>
 
 			<div class="result">
