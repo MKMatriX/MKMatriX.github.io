@@ -50,12 +50,13 @@
 			<custom-input name="total hit %" v-model="totalhit" min="82" max="99"></custom-input>
 			<custom-input name="active %" v-model="active" min="0" max="100"></custom-input>
 			<div class="row" style="padding-top: 10px;">
+				<div class="col-md-12" @click="toggle_buffs('clothes')"><h3>Одежда</h3></div>
 				<custom-checkbox title="tier 2 last bonus" v-model="setBonus" src="spell_shadow_manaburn.jpg"></custom-checkbox>
 				<custom-checkbox title="zandalar trinket" v-model="zandTrink" src="inv_jewelry_necklace_13.jpg"></custom-checkbox>
 			</div>
 			<div class="row" style="padding-top: 10px;">
+				<div class="col-md-12" @click="toggle_buffs('wb')"><h3>World buffs</h3></div>
 				<custom-checkbox title="head buff" v-model="buffs.head" src="inv_misc_head_dragon_01.jpg"></custom-checkbox>
-				<custom-checkbox title="int" v-model="buffs.int" src="spell_holy_magicalsentry.jpg"></custom-checkbox>
 				<custom-checkbox title="zandalar" v-model="buffs.zand" src="ability_creature_poison_05.jpg"></custom-checkbox>
 				<custom-checkbox title="dm" v-model="buffs.dm" src="spell_holy_lesserheal02.jpg"></custom-checkbox>
 				<custom-checkbox title="flower" v-model="buffs.flower" src="spell_holy_mindvision.jpg"></custom-checkbox>
@@ -63,10 +64,13 @@
 				<custom-checkbox title="darkmoon festival intellect" v-model="buffs.dmfInt" src="inv_misc_orb_02.jpg"></custom-checkbox>
 			</div>
 			<div class="row" style="padding-top: 10px;">
+				<div class="col-md-12" @click="toggle_buffs('b')"><h3>Raid buffs</h3></div>
+				<custom-checkbox title="int" v-model="buffs.int" src="spell_holy_magicalsentry.jpg"></custom-checkbox>
 				<custom-checkbox title="Знак дикой природы" v-model="buffs.motw" src="spell_nature_regeneration.jpg"></custom-checkbox>
 				<custom-checkbox title="blessing" v-model="buffs.blessing" src="spell_magic_greaterblessingofkings.jpg"></custom-checkbox>
 			</div>
 			<div class="row" style="padding-top: 10px;">
+				<div class="col-md-12" @click="toggle_buffs('chem')"><h3>Химия</h3></div>
 				<custom-checkbox title="great power" v-model="buffs.greatPower" src="inv_potion_41.jpg"></custom-checkbox>
 				<custom-checkbox title="ice power" v-model="buffs.icePower" src="inv_potion_03.jpg"></custom-checkbox>
 				<custom-checkbox title="arcane elixir" v-model="buffs.arcanePower" src="inv_potion_25.jpg"></custom-checkbox>
@@ -75,9 +79,24 @@
 				<custom-checkbox title="Эликсир Мозгового штурма" v-model="buffs.mindElixir" src="inv_potion_32.jpg"></custom-checkbox>
 				<custom-checkbox title="Коварство джуджу" v-model="buffs.juju" src="inv_misc_monsterscales_13.jpg"></custom-checkbox>
 			</div>
+			<div class="row" style="padding-top: 10px;">
+				<div class="col-md-12" @click="toggle_buffs('talents')"><h3>Talents</h3></div>
+				<talent title="Improved Frostbolt" v-model="talents.fbCastTime" max="5" src="spell_frost_frostbolt02.jpg"></talent>
+			</div>
 
-			<div class="result">
+			<div class="col-md-12">
 				<span v-html="formula"></span> = {{result}}
+			</div>
+
+			<div class="col-md-12">
+				<div class="form-check">
+					<input type="checkbox" class="form-check-input" id="history_cb" v-model="holdHistory"/>
+					<label class="form-check-label" for="history_cb">hold sum</label>
+				</div>
+			</div>
+
+			<div class="col-md-12" v-for="(row,key) in history.slice().reverse()" :key="key">
+				added {{round100(row.added)}} ({{round100(row.percent)}}%)
 			</div>
 		</div>
 	</div>
