@@ -2,11 +2,10 @@ Vue.component(
 		'talent',
 		{
 				template: `
-<div class="col-md-1">
+<div class="col-md-1" :title=title>
 	<label
 				class="btn btn-primary"
 				:class="[value > 0? '':'gray']"
-				:title=title
 				@click.prevent="inc"
 				@contextmenu.prevent="dec"
 		>
@@ -184,7 +183,7 @@ var app = new Vue({
 				spd: 416,
 				damage: "(440+475)/2",
 				crit: 5,
-				totalhit: 95,
+				hit: 7,
 				casttime: 3,
 				intellect: 159+16+14+12+9+37+3,
 				active: 61.5,
@@ -217,6 +216,9 @@ var app = new Vue({
 
 				talents: {
 						fbCastTime: 5,
+						iceShards: 5,
+						piercingIce: 3,
+						icePrecision: 3,
 				},
 
 				history: [],
@@ -229,8 +231,10 @@ var app = new Vue({
 
 						res = this.wrap(this.damage, "ice arrow default damage")
 						res = this.add(res, this.totalSpd * (this.totalCastTime / 3), "spd * coef")
-						res = this.mul(res, (100 + this.totalCrit)/100, "crit")
-						res = this.mul(res, this.totalhit/100, "hit")
+
+						let critCoef = this.talents.iceShards*0.1 + 0.5
+						res = this.mul(res, (100 + this.totalCrit * critCoef)/100, "crit")
+						res = this.mul(res, this.totalHit/100, "hit")
 						res = this.div(res, this.totalCastTime, "casttime")
 						if (this.setBonus) {
 								res = this.mul(res, 1.10, "set bonus")
@@ -239,7 +243,11 @@ var app = new Vue({
 								res = this.mul(res, 1.10, "darkmoon festival damage")
 						}
 						res = this.mul(res, this.active / 100, "active in fight")
+						if (this.talents.piercingIce) {
+								res = this.mul(res, 1 + (this.talents.piercingIce*0.02), "Piercing Ice Talent")
+						}
 
+						// history
 						var percent = 0
 						var added = "0"
 						var result = this.result
@@ -254,11 +262,27 @@ var app = new Vue({
 						this.result = this.round100(this.result)
 						return res
 				},
+				attacs: function () {
+						var attack = (this.fightTime * this.active / (100 * this.totalCastTime)) >>> 0
+						if (this.setBonus) {
+								attack *= 1.1
+						}
+						return attack
+				},
 				totalCastTime: function () {
 						return this.casttime - (this.talents.fbCastTime * 0.1)
 				},
 				intCrit: function () {
 						return this.totalInt / 59.5
+				},
+				totalHit: function () {
+						let hit = 82
+						hit += this.hit
+						hit += this.talents.icePrecision*2
+						if (hit > 99) {
+								hit = 99
+						}
+						return hit
 				},
 				totalSpd: function () {
 						let spd = +this.spd

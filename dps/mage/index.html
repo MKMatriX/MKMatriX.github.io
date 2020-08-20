@@ -47,9 +47,13 @@
 			<custom-input name="crit from clothes %" v-model="crit" min="0">
 				total crit = {{round100(totalCrit)}}
 			</custom-input>
-			<custom-input name="total hit %" v-model="totalhit" min="82" max="99"></custom-input>
+			<custom-input name="hit from clothes %" v-model="hit" min="0" max="99">
+				total hit = {{round100(totalHit)}}
+			</custom-input>
 			<custom-input name="active %" v-model="active" min="0" max="100"></custom-input>
-			<custom-input name="fight time seconds" v-model="fightTime" min="3" max="120"></custom-input>
+			<custom-input name="fight time seconds" v-model="fightTime" min="3" max="120">
+				total attacks = {{round100(attacs)}}
+			</custom-input>
 			<div class="row" style="padding-top: 10px;">
 				<div class="col-md-12" @click="toggle_buffs('clothes')"><h3>Одежда</h3></div>
 				<custom-checkbox title="tier 2 last bonus" v-model="setBonus" src="spell_shadow_manaburn.jpg"></custom-checkbox>
@@ -83,6 +87,9 @@
 			<div class="row" style="padding-top: 10px;">
 				<div class="col-md-12" @click="toggle_buffs('talents')"><h3>Talents</h3></div>
 				<talent title="Improved Frostbolt" v-model="talents.fbCastTime" max="5" src="spell_frost_frostbolt02.jpg"></talent>
+				<talent title="Elemental Precision" v-model="talents.icePrecision" max="3" src="spell_ice_magicdamage.jpg"></talent>
+				<talent title="Ice Shards" v-model="talents.iceShards" max="5" src="spell_frost_iceshard.jpg"></talent>
+				<talent title="Piercing Ice" v-model="talents.piercingIce" max="3" src="spell_frost_frostbolt.jpg"></talent>
 			</div>
 
 			<div class="col-md-12">
