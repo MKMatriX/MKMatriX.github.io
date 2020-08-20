@@ -49,6 +49,7 @@
 			</custom-input>
 			<custom-input name="total hit %" v-model="totalhit" min="82" max="99"></custom-input>
 			<custom-input name="active %" v-model="active" min="0" max="100"></custom-input>
+			<custom-input name="fight time seconds" v-model="fightTime" min="3" max="120"></custom-input>
 			<div class="row" style="padding-top: 10px;">
 				<div class="col-md-12" @click="toggle_buffs('clothes')"><h3>Одежда</h3></div>
 				<custom-checkbox title="tier 2 last bonus" v-model="setBonus" src="spell_shadow_manaburn.jpg"></custom-checkbox>

@@ -188,6 +188,7 @@ var app = new Vue({
 				casttime: 3,
 				intellect: 159+16+14+12+9+37+3,
 				active: 61.5,
+				fightTime: 90,
 				result: 0,
 
 				setBonus: true,
@@ -276,7 +277,11 @@ var app = new Vue({
 						}
 
 						if (this.zandTrink) { // assuming 7 attacs
-								spd += (204*7-(17*(0+1+2+3+4+5+6)))/120
+								var procs = ((this.fightTime > 19.9? 19.9: this.fightTime) / this.totalCastTime) >>> 0
+								var minusCoef = (1 + procs) * procs / 2
+								var cd = this.fightTime % 120
+								cd = cd? cd : 120
+								spd += (204*procs-(17*minusCoef)) / cd
 						}
 
 						return spd
