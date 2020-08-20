@@ -300,12 +300,27 @@ var app = new Vue({
 								spd += 36
 						}
 
-						if (this.zandTrink) { // assuming 7 attacs
-								var procs = ((this.fightTime > 19.9? 19.9: this.fightTime) / this.totalCastTime) >>> 0
-								var minusCoef = (1 + procs) * procs / 2
+						if (this.zandTrink) {
+								// last cd
 								var cd = this.fightTime % 120
 								cd = cd? cd : 120
+								var procs = ((cd > 19.9? 19.9: cd) / this.totalCastTime) >>> 0
+								if (this.setBonus) {
+										procs *= 1.1
+								}
+								var minusCoef = (1 + procs) * procs / 2
 								spd += (204*procs-(17*minusCoef)) / cd
+
+								if (this.fightTime > 120) {
+										cd = (this.fightTime / 120) >>> 0
+										procs = (cd / this.totalCastTime) >>> 0
+										if (this.setBonus) {
+												procs *= 1.1
+										}
+										minusCoef = (1 + procs) * procs / 2
+										cd += 120
+										spd += (204*procs-(17*minusCoef)) / cd
+								}
 						}
 
 						return spd
